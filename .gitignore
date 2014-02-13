@@ -4,3 +4,9 @@
 *.jar
 *.war
 *.ear
+.DS_Store
+target
+.idea
+logs
+mongo-migrations.iml
+*.iml
