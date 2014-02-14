@@ -61,7 +61,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.sharethis.mongodb.Migration</mainClass>
+                            <mainClass>com.sharethis.mongodb.main.Migration</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

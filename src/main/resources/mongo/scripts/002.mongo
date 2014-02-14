@@ -1,4 +1,6 @@
-002 002 002
-002 002 002
-002 002 002
-002 002 002
+db.addUser(
+    { "user": "loopy",
+        "pwd": "b3s0cial",
+        "roles": [ "readWrite" ]
+    });
+    

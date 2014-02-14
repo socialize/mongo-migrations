@@ -1,4 +1,4 @@
-package com.sharethis.mongodb;
+package com.sharethis.mongodb.migration;
 
 import java.util.Date;
 
@@ -35,7 +35,14 @@ public class MigrationModel {
         this.scriptName = scriptName;
     }
 
+    public MigrationModel(Date appliedDate, String scriptName, String scriptBody) {
+        this.appliedDate = appliedDate;
+        this.scriptName = scriptName;
+        this.scriptBody = scriptBody;
+    }
+
     @Override
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

@@ -1,4 +1,4 @@
-package com.sharethis.mongodb;
+package com.sharethis.mongodb.connection;
 
 import com.mongodb.MongoOptions;
 
@@ -7,7 +7,7 @@ import com.mongodb.MongoOptions;
  */
 
 /**
- *  MongoConnection is a wrapper on required parameters for connecting to mongo
+ * MongoConnection is a wrapper on required parameters for connecting to mongo
  */
 
 public class MongoConnectionSettings {
@@ -21,7 +21,8 @@ public class MongoConnectionSettings {
 
     private MongoOptions options;
 
-    public MongoConnectionSettings() { }
+    public MongoConnectionSettings() {
+    }
 
     public MongoConnectionSettings(String hostname, Integer port, String database, String userName, String password) {
         this.hostname = hostname;

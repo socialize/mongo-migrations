@@ -1,0 +1,6 @@
+db.analytic_events.ensureIndex({
+	"_id.ap" : 1,
+	"_id.dt" : 1,
+	"_id.ch" : 1,
+    "_id.ev" : 1
+});

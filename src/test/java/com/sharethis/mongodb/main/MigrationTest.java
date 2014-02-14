@@ -1,4 +1,4 @@
-package com.sharethis.mongodb;
+package com.sharethis.mongodb.main;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,8 +13,8 @@ public class MigrationTest {
     /**
      * Rigourous Test :-)
      */
-    public void testApp()
-    {
-        Assert.assertTrue( true );
+    @Test
+    public void testApp() {
+        Assert.assertTrue(true);
     }
 }

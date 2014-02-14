@@ -62,11 +62,11 @@
     <!-- ROOT LEVEL -->
     <!-- Enable appenders for all log messages. -->
     <root level="INFO">
-        <appender-ref ref="FILE" />
-        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
     </root>
 
     <!-- LOGGER LEVEL -->
     <!-- Overrides ROOT. Will log level X and above unless a threshold filter prevents it -->
-    <logger name="com.sharethis.mongodb" level="INFO" />
+    <logger name="com.sharethis.mongodb" level="INFO"/>
 </configuration>
