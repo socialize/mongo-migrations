@@ -12,7 +12,7 @@ import java.util.Properties;
 public class MongoConnectionSettingsUtil {
     private final static String initErrorMessage = "--- Initializing MongoDB connection settings failed. \n";
 
-    public static MongoConnectionSettings initMongoConnectionSettings(String propertiesFieLocation) throws MigrationIOException, PropertyNotFoundException {
+    public MongoConnectionSettings initMongoConnectionSettings(String propertiesFieLocation) throws MigrationIOException, PropertyNotFoundException {
         Properties properties = new Properties();
         try {
             properties.load(new FileInputStream(new File(propertiesFieLocation)));
@@ -32,7 +32,7 @@ public class MongoConnectionSettingsUtil {
         return mcs;
     }
 
-    public static void verifyMongoConnectionSettings(MongoConnectionSettings settings) throws PropertyNotFoundException {
+    public void verifyMongoConnectionSettings(MongoConnectionSettings settings) throws PropertyNotFoundException {
         if (StringUtils.isEmpty(settings.getHostname())) {
             throw new PropertyNotFoundException(MongoProperties.MONGO_HOST);
         }

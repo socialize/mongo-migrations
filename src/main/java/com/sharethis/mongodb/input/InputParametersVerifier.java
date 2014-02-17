@@ -9,7 +9,7 @@ import java.io.File;
 
 public class InputParametersVerifier {
 
-    public static void verifyInputResources(String[] args) throws PropertyNotFoundException, ChangeSetNotFoundException, MongoDBConnectionSettingsNotFoundException, WrongInputParametersException {
+    public void verifyInputResources(String[] args) throws PropertyNotFoundException, ChangeSetNotFoundException, MongoDBConnectionSettingsNotFoundException, WrongInputParametersException {
         if (args.length < 2) {
             throw new WrongInputParametersException();
         }

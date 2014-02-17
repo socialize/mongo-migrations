@@ -9,9 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class FileUtil {
+public class FileReader {
 
-    public static String getFileAsString(String pathToFile) throws MigrationScriptNotFoundException {
+    public String getFileAsString(String pathToFile) throws MigrationScriptNotFoundException {
         Scanner scanner;
         try {
             scanner = new Scanner(new File(pathToFile), "UTF-8");
@@ -21,7 +21,7 @@ public class FileUtil {
         return scanner.useDelimiter("\\Z").next();
     }
 
-    public static List<String> getFileAsLines(String pathToFile) throws ChangeSetNotFoundException {
+    public List<String> getFileAsLines(String pathToFile) throws ChangeSetNotFoundException {
         List<String> changeSet = new LinkedList<>();
         try {
             Scanner scanner = new Scanner(new File(pathToFile), "UTF-8");

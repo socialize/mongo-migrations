@@ -3,14 +3,12 @@ package com.sharethis.mongodb.migration;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
-import com.sharethis.mongodb.change.ChangeSetReader;
-import com.sharethis.mongodb.change.ChangeSetUtil;
 import com.sharethis.mongodb.connection.MongoConnectionSettings;
 import com.sharethis.mongodb.connection.MongoConnectionSettingsUtil;
 import com.sharethis.mongodb.dao.MigrationDao;
 import com.sharethis.mongodb.dao.TargetDao;
 import com.sharethis.mongodb.exception.*;
-import com.sharethis.mongodb.file.FileUtil;
+import com.sharethis.mongodb.file.FileReader;
 import com.sharethis.mongodb.input.InputParametersVerifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,14 +26,14 @@ public class MigrationManager {
 
         log.info("Congrats this is mongodb migration tool");
 
-        InputParametersVerifier.verifyInputResources(inputParams);
+        new InputParametersVerifier().verifyInputResources(inputParams);
 
         String mongoConnectionFile = inputParams[0];
         String changeSetPath = inputParams[1];
         String scriptsFolder = changeSetPath.substring(0, changeSetPath.lastIndexOf("/")) + SCRIPTS;
 
         log.info("Initializing MongoDB connection settings");
-        MongoConnectionSettings mongoConnectionSettings = MongoConnectionSettingsUtil.initMongoConnectionSettings(mongoConnectionFile);
+        MongoConnectionSettings mongoConnectionSettings = new MongoConnectionSettingsUtil().initMongoConnectionSettings(mongoConnectionFile);
 
         MongoClient mongoClient;
         try {
@@ -48,7 +46,8 @@ public class MigrationManager {
         DB targetDB = mongoClient.getDB(mongoConnectionSettings.getDatabase());
         TargetDao targetDao = new TargetDao(targetDB);
 
-        List<String> availableMigrationsNames = ChangeSetReader.getChangeSet(changeSetPath);
+        MigrationReader migrationReader = new MigrationReader();
+        List<String> availableMigrationsNames = migrationReader.getMigrationNames(changeSetPath);
         log.info("Available migration(s): {}", availableMigrationsNames.toString());
 
         MigrationDao migrationDao = new MigrationDao(mongoClient.getDB(MigrationSettings.APPLIED_MIGRATIONS_DB_NAME));
@@ -58,7 +57,7 @@ public class MigrationManager {
         log.info("Applied migration(s): {}", appliedMigrationsNames.toString());
 
 
-        List<String> newMigrationsNames = ChangeSetUtil.findNotApplied(availableMigrationsNames, appliedMigrationsNames);
+        List<String> newMigrationsNames = migrationReader.findNotApplied(availableMigrationsNames, appliedMigrationsNames);
 
         if (newMigrationsNames.isEmpty()) {
             log.info("Database is up-to-date");
@@ -85,7 +84,7 @@ public class MigrationManager {
     private List<MigrationModel> getMigrations(String scriptsFolder, List<String> notYetApplied, Date date) throws MigrationScriptNotFoundException {
         List<MigrationModel> migrations = new ArrayList<>();
         for (String change : notYetApplied) {
-            String body = FileUtil.getFileAsString(scriptsFolder + change);
+            String body = new FileReader().getFileAsString(scriptsFolder + change);
             migrations.add(new MigrationModel(date, change, body));
         }
         return migrations;
