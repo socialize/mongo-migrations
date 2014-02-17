@@ -4,7 +4,7 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import com.sharethis.mongodb.connection.MongoConnectionSettings;
-import com.sharethis.mongodb.connection.MongoConnectionSettingsUtil;
+import com.sharethis.mongodb.connection.MongoConnectionSettingsInitializer;
 import com.sharethis.mongodb.dao.MigrationDao;
 import com.sharethis.mongodb.dao.TargetDao;
 import com.sharethis.mongodb.exception.*;
@@ -33,7 +33,7 @@ public class MigrationManager {
         String scriptsFolder = changeSetPath.substring(0, changeSetPath.lastIndexOf("/")) + SCRIPTS;
 
         log.info("Initializing MongoDB connection settings");
-        MongoConnectionSettings mongoConnectionSettings = new MongoConnectionSettingsUtil().initMongoConnectionSettings(mongoConnectionFile);
+        MongoConnectionSettings mongoConnectionSettings = new MongoConnectionSettingsInitializer().initMongoConnectionSettings(mongoConnectionFile);
 
         MongoClient mongoClient;
         try {

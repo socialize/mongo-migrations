@@ -9,7 +9,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class MongoConnectionSettingsUtil {
+public class MongoConnectionSettingsInitializer {
     private final static String initErrorMessage = "--- Initializing MongoDB connection settings failed. \n";
 
     public MongoConnectionSettings initMongoConnectionSettings(String propertiesFieLocation) throws MigrationIOException, PropertyNotFoundException {
@@ -21,7 +21,7 @@ public class MongoConnectionSettingsUtil {
         }
 
         String host = properties.getProperty(MongoProperties.MONGO_HOST);
-        Integer port = Integer.parseInt(properties.getProperty(MongoProperties.MONGO_PORT));
+        Integer port = Integer.parseInt(properties.getProperty(MongoProperties.MONGO_PORT, "0"));
         String db = properties.getProperty(MongoProperties.MONGO_DB);
         String user = properties.getProperty(MongoProperties.MONGO_USERNAME);
         String pwd = properties.getProperty(MongoProperties.MONGO_PASSWORD);
