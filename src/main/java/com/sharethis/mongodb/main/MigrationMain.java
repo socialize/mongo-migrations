@@ -13,8 +13,8 @@ public class MigrationMain {
         try {
             new MigrationManager().migrate(args);
         } catch (Exception ex) {
-            log.error("--- Migration failed!", ex);
-            log.error("--- Application will close");
+            log.error("Migration failed!", ex);
+            log.error("Application will close");
         }
     }
 }

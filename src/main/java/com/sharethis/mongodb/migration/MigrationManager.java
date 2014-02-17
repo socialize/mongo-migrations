@@ -26,7 +26,7 @@ public class MigrationManager {
 
     public void migrate(String[] inputParams) throws PropertyNotFoundException, ChangeSetNotFoundException, MongoDBConnectionSettingsNotFoundException, WrongInputParametersException, MigrationIOException, MongoDBConnectionException, MigrationScriptNotFoundException {
 
-        log.info("--- Congrats this is mongodb migration tool");
+        log.info("Congrats this is mongodb migration tool");
 
         InputParametersVerifier.verifyInputResources(inputParams);
 
@@ -34,7 +34,7 @@ public class MigrationManager {
         String changeSetPath = inputParams[1];
         String scriptsFolder = changeSetPath.substring(0, changeSetPath.lastIndexOf("/")) + SCRIPTS;
 
-        log.info("--- Initializing MongoDB connection settings");
+        log.info("Initializing MongoDB connection settings");
         MongoConnectionSettings mongoConnectionSettings = MongoConnectionSettingsUtil.initMongoConnectionSettings(mongoConnectionFile);
 
         MongoClient mongoClient;
@@ -49,36 +49,36 @@ public class MigrationManager {
         TargetDao targetDao = new TargetDao(targetDB);
 
         List<String> availableMigrationsNames = ChangeSetReader.getChangeSet(changeSetPath);
-        log.info("--- Available migrations sre : {}", availableMigrationsNames.toString());
+        log.info("Available migration(s): {}", availableMigrationsNames.toString());
 
         MigrationDao migrationDao = new MigrationDao(mongoClient.getDB(MigrationSettings.APPLIED_MIGRATIONS_DB_NAME));
         DBCollection migrationCollection = migrationDao.createOrUpdateCollection(MigrationSettings.APPLIED_MIGRATIONS_COLLECTION);
 
         List<String> appliedMigrationsNames = migrationDao.getAppliedChangesNames(migrationCollection);
-        log.info("--- Applied migrations are : {}", appliedMigrationsNames.toString());
+        log.info("Applied migration(s): {}", appliedMigrationsNames.toString());
 
 
         List<String> newMigrationsNames = ChangeSetUtil.findNotApplied(availableMigrationsNames, appliedMigrationsNames);
 
         if (newMigrationsNames.isEmpty()) {
-            log.info("--- Database is up-to-date");
+            log.info("Database is up-to-date");
             return;
         } else {
-            log.info("--- There where found {} migration files to be applied", newMigrationsNames.size());
-            log.info("--- Migration files to be applied are : " + newMigrationsNames.toString());
+            log.info("There where found {} migration files to be applied", newMigrationsNames.size());
+            log.info("Migration files to be applied are : " + newMigrationsNames.toString());
         }
 
         List<MigrationModel> migrations = getMigrations(scriptsFolder, newMigrationsNames, getCurrentDate());
 
 
         for (MigrationModel migration : migrations) {
-            log.info("--- Applying migration file : {}", migration.getScriptName());
+            log.info("Applying migration file : {}", migration.getScriptName());
             log.info("\n" + migration.getScriptBody());
             targetDao.executeScript(migration.getScriptBody());
             migrationDao.addAppliedChanges(migrationCollection, migration);
         }
 
-        log.info("--- BD migration was successful");
+        log.info("BD migration was successful");
 
     }
 
