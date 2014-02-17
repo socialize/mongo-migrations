@@ -6,9 +6,6 @@ import com.sharethis.mongodb.migration.MigrationModel;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by nbarabash on 2/14/14.
- */
 public class MigrationDao extends AbstractMongoDao {
 
     public MigrationDao(DB migrationDB) {

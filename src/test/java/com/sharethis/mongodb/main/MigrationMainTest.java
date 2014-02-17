@@ -7,7 +7,7 @@ import org.junit.Test;
 /**
  * Unit test for simple Migration.
  */
-public class MigrationTest {
+public class MigrationMainTest {
 
 
     /**

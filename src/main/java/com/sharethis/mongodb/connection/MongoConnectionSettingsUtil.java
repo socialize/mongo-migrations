@@ -1,24 +1,24 @@
 package com.sharethis.mongodb.connection;
 
+import com.sharethis.mongodb.exception.MigrationIOException;
+import com.sharethis.mongodb.exception.PropertyNotFoundException;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-/**
- * Created by nbarabash on 2/14/14.
- */
 public class MongoConnectionSettingsUtil {
+    private final static String initErrorMessage = "--- Initializing MongoDB connection settings failed. \n";
 
-    private static Logger log = LoggerFactory.getLogger(MongoConnectionSettingsUtil.class);
-
-    public static MongoConnectionSettings initMongoConnectionSettings(String propertiesFieLocation) throws IOException {
+    public static MongoConnectionSettings initMongoConnectionSettings(String propertiesFieLocation) throws MigrationIOException, PropertyNotFoundException {
         Properties properties = new Properties();
-        properties.load(new FileInputStream(new File(propertiesFieLocation)));
+        try {
+            properties.load(new FileInputStream(new File(propertiesFieLocation)));
+        } catch (IOException ioex) {
+            throw new MigrationIOException(initErrorMessage + ioex.getLocalizedMessage(), ioex.getCause());
+        }
 
         String host = properties.getProperty(MongoProperties.MONGO_HOST);
         Integer port = Integer.parseInt(properties.getProperty(MongoProperties.MONGO_PORT));
@@ -26,27 +26,21 @@ public class MongoConnectionSettingsUtil {
         String user = properties.getProperty(MongoProperties.MONGO_USERNAME);
         String pwd = properties.getProperty(MongoProperties.MONGO_PASSWORD);
         MongoConnectionSettings mcs = new MongoConnectionSettings(host, port, db, user, pwd);
+
         verifyMongoConnectionSettings(mcs);
+
         return mcs;
     }
 
-    public static void verifyMongoConnectionSettings(MongoConnectionSettings settings) {
+    public static void verifyMongoConnectionSettings(MongoConnectionSettings settings) throws PropertyNotFoundException {
         if (StringUtils.isEmpty(settings.getHostname())) {
-            log.error("--- Property {} is missed in properties file. Add it and try again.", MongoProperties.MONGO_HOST);
-            sayBye();
+            throw new PropertyNotFoundException(MongoProperties.MONGO_HOST);
         }
         if (settings.getPort() == null || settings.getPort() == 0) {
-            log.error("--- Property is missed in properties file. Add it and try again.", MongoProperties.MONGO_PORT);
-            sayBye();
+            throw new PropertyNotFoundException(MongoProperties.MONGO_PORT);
         }
         if (StringUtils.isEmpty(settings.getDatabase())) {
-            log.error("--- Property {} is missed in properties file. Add it and try again.", MongoProperties.MONGO_DB);
-            sayBye();
+            throw new PropertyNotFoundException(MongoProperties.MONGO_DB);
         }
-    }
-
-    private static void sayBye() {
-        log.error("--- Application will close");
-        System.exit(0);
     }
 }
