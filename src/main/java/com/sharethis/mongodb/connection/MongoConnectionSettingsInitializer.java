@@ -10,14 +10,14 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class MongoConnectionSettingsInitializer {
-    private final static String initErrorMessage = "--- Initializing MongoDB connection settings failed. \n";
+    private static final String INIT_ERROR_MESSAGE = "Initializing MongoDB connection settings failed. \n";
 
     public MongoConnectionSettings initMongoConnectionSettings(String propertiesFieLocation) throws MigrationIOException, PropertyNotFoundException {
         Properties properties = new Properties();
         try {
             properties.load(new FileInputStream(new File(propertiesFieLocation)));
         } catch (IOException ioex) {
-            throw new MigrationIOException(initErrorMessage + ioex.getLocalizedMessage(), ioex.getCause());
+            throw new MigrationIOException(INIT_ERROR_MESSAGE + ioex.getLocalizedMessage(), ioex.getCause());
         }
 
         String host = properties.getProperty(MongoProperties.MONGO_HOST);

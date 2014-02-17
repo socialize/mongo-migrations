@@ -7,14 +7,25 @@ import com.sharethis.mongodb.connection.MongoConnectionSettings;
 import com.sharethis.mongodb.connection.MongoConnectionSettingsInitializer;
 import com.sharethis.mongodb.dao.MigrationDao;
 import com.sharethis.mongodb.dao.TargetDao;
-import com.sharethis.mongodb.exception.*;
+import com.sharethis.mongodb.exception.ChangeSetNotFoundException;
+import com.sharethis.mongodb.exception.MigrationIOException;
+import com.sharethis.mongodb.exception.MigrationScriptNotFoundException;
+import com.sharethis.mongodb.exception.MongoDBConnectionException;
+import com.sharethis.mongodb.exception.MongoDBConnectionSettingsNotFoundException;
+import com.sharethis.mongodb.exception.PropertyNotFoundException;
+import com.sharethis.mongodb.exception.WrongInputParametersException;
+
 import com.sharethis.mongodb.file.FileReader;
 import com.sharethis.mongodb.input.InputParametersVerifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.UnknownHostException;
-import java.util.*;
+import java.util.List;
+import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.TimeZone;
+import java.util.Date;
 
 
 public class MigrationManager {

@@ -4,9 +4,9 @@ import java.net.UnknownHostException;
 import java.text.MessageFormat;
 
 public class MongoDBConnectionException extends UnknownHostException {
-    private final static String message = "--- Cannot connect to mongodb server on host {} port {}";
+    private static final String MESSAGE = "Cannot connect to mongodb server on host {} port {}";
 
     public MongoDBConnectionException(String port, Integer host) {
-        super(MessageFormat.format(message, port, host));
+        super(MessageFormat.format(MESSAGE, port, host));
     }
 }
