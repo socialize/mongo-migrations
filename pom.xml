@@ -46,6 +46,24 @@
     </profiles>
 
     <build>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>/**</include>
+                </includes>
+                <excludes>
+                    <exclude>example/**</exclude>
+                </excludes>
+
+            </resource>
+            <resource>
+                <directory>${loopy.profile.path}</directory>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
