@@ -3,6 +3,7 @@ package com.sharethis.mongodb.input;
 import com.sharethis.mongodb.exception.ChangeSetNotFoundException;
 import com.sharethis.mongodb.exception.MongoConnectionSettingsNotFoundException;
 import com.sharethis.mongodb.exception.WrongInputParametersException;
+import com.sharethis.mongodb.migration.MigrationFiles;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -27,9 +28,9 @@ public class InputParametersVerifierTest {
     public void init() throws Exception {
         verifier = new InputParametersVerifier();
 
-        mongoSettings = tmpFolder.newFile("mongo.settings");
-        migrationsSet = tmpFolder.newFile("changeSet.mongo");
-        scriptsFolder = tmpFolder.newFolder("scripts");
+        mongoSettings = tmpFolder.newFile(MigrationFiles.MONGO_PROPERTIES);
+        migrationsSet = tmpFolder.newFile(MigrationFiles.MIGRATION_SET_MONGO);
+        scriptsFolder = tmpFolder.newFolder(MigrationFiles.SCRIPTS);
 
     }
 

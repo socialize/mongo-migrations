@@ -12,7 +12,7 @@ Mongo Migrations Java Library
 
 ### How to run locally
 
-    cp src/main/resources/mongo.properties /target
-    cp -R src/main/resources/mongo /target
+    cp src/main/resources/example/mongo.properties /target
+    cp -R src/main/resources/example/mongo /target
     cd target
     java  -jar mongo-migrations-1.0-SNAPSHOT.jar mongo.properties /mongo/changeSet.mongo

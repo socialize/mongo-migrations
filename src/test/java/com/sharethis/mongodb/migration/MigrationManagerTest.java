@@ -27,9 +27,9 @@ public class MigrationManagerTest {
     public void init() throws Exception {
         manager = new MigrationManager();
 
-        mongoSettings = tmpFolder.newFile("mongo.settings");
-        migrationsSet = tmpFolder.newFile("changeSet.mongo");
-        scriptsFolder = tmpFolder.newFolder("scripts");
+        mongoSettings = tmpFolder.newFile(MigrationFiles.MONGO_PROPERTIES);
+        migrationsSet = tmpFolder.newFile(MigrationFiles.MIGRATION_SET_MONGO);
+        scriptsFolder = tmpFolder.newFolder(MigrationFiles.SCRIPTS);
 
         args[0] = mongoSettings.getAbsolutePath();
         args[1] = migrationsSet.getAbsolutePath();

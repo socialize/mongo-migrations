@@ -2,6 +2,7 @@ package com.sharethis.mongodb.connection;
 
 import com.sharethis.mongodb.exception.MigrationIOException;
 import com.sharethis.mongodb.exception.PropertyNotFoundException;
+import com.sharethis.mongodb.migration.MigrationFiles;
 import com.sharethis.mongodb.util.PropertyHelper;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class MongoConnectionSettingsInitializerTest {
+
     @Rule
     public TemporaryFolder tmpFolder = new TemporaryFolder();
 
@@ -22,7 +24,7 @@ public class MongoConnectionSettingsInitializerTest {
 
     @Before
     public void init() throws IOException {
-        mongoSettings = tmpFolder.newFile("mongo.properties");
+        mongoSettings = tmpFolder.newFile(MigrationFiles.MONGO_PROPERTIES);
 
         PropertyHelper.prepareProperties(mongoSettings);
 
@@ -62,20 +64,4 @@ public class MongoConnectionSettingsInitializerTest {
         MongoConnectionSettings mongoSettings = new MongoConnectionSettings("host", 1, "", "", "");
         initializer.verifyMongoConnectionSettings(mongoSettings);
     }
-
-//    private void prepareProperties(File mongoSettings) throws FileNotFoundException {
-//
-//        PrintWriter printer = new PrintWriter(mongoSettings);
-//        Map<String, String> properties = new HashMap<>();
-//        properties.put(MongoProperties.MONGO_HOST, "host");
-//        properties.put(MongoProperties.MONGO_PORT, "123");
-//        properties.put(MongoProperties.MONGO_DB, "db");
-//
-//        for(Map.Entry<String, String> property: properties.entrySet()){
-//            printer.write(property.getKey() + "=" + property.getValue() + "\n");
-//        }
-//
-//        printer.flush();
-//        printer.close();
-//    }
 }
