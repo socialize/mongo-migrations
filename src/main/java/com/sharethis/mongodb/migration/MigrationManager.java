@@ -7,13 +7,13 @@ import com.sharethis.mongodb.connection.MongoConnectionSettings;
 import com.sharethis.mongodb.connection.MongoConnectionSettingsInitializer;
 import com.sharethis.mongodb.dao.MigrationDao;
 import com.sharethis.mongodb.dao.TargetDao;
+import com.sharethis.mongodb.exception.WrongInputParametersException;
+import com.sharethis.mongodb.exception.PropertyNotFoundException;
+import com.sharethis.mongodb.exception.MongoDBConnectionException;
 import com.sharethis.mongodb.exception.ChangeSetNotFoundException;
 import com.sharethis.mongodb.exception.MigrationIOException;
 import com.sharethis.mongodb.exception.MigrationScriptNotFoundException;
-import com.sharethis.mongodb.exception.MongoDBConnectionException;
-import com.sharethis.mongodb.exception.MongoDBConnectionSettingsNotFoundException;
-import com.sharethis.mongodb.exception.PropertyNotFoundException;
-import com.sharethis.mongodb.exception.WrongInputParametersException;
+import com.sharethis.mongodb.exception.MongoConnectionSettingsNotFoundException;
 
 import com.sharethis.mongodb.file.FileReader;
 import com.sharethis.mongodb.input.InputParametersVerifier;
@@ -33,7 +33,7 @@ public class MigrationManager {
     public static final String SCRIPTS = "/scripts/";
     private static Logger log = LoggerFactory.getLogger(MigrationManager.class);
 
-    public void migrate(String[] inputParams) throws PropertyNotFoundException, ChangeSetNotFoundException, MongoDBConnectionSettingsNotFoundException, WrongInputParametersException, MigrationIOException, MongoDBConnectionException, MigrationScriptNotFoundException {
+    public void migrate(String[] inputParams) throws PropertyNotFoundException, ChangeSetNotFoundException, MongoConnectionSettingsNotFoundException, WrongInputParametersException, MigrationIOException, MongoDBConnectionException, MigrationScriptNotFoundException {
 
         log.info("Congrats this is mongodb migration tool");
 

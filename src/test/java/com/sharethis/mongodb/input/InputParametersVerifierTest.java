@@ -1,7 +1,7 @@
 package com.sharethis.mongodb.input;
 
 import com.sharethis.mongodb.exception.ChangeSetNotFoundException;
-import com.sharethis.mongodb.exception.MongoDBConnectionSettingsNotFoundException;
+import com.sharethis.mongodb.exception.MongoConnectionSettingsNotFoundException;
 import com.sharethis.mongodb.exception.WrongInputParametersException;
 import org.junit.Assert;
 import org.junit.Before;
@@ -46,7 +46,7 @@ public class InputParametersVerifierTest {
         verifier.verifyInputResources( new String[1]);
     }
 
-    @Test(expected = MongoDBConnectionSettingsNotFoundException.class)
+    @Test(expected = MongoConnectionSettingsNotFoundException.class)
     public void verifyMongoDBConnectionSettingsNotFoundException() throws Exception {
         verifier.verifyInputResources( new String[] {"blah", "foo"});
     }
