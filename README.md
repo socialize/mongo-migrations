@@ -13,6 +13,13 @@ This tool also persists state of migration - persists names of already ran migra
 
     mvn clean package
 
+### How to run migration
+ For running migration it is needed migration tool jar and sources(mongo.properties, migrationSet.mongo, and migration scripts).
+ Command structure for running migration tool is:
+
+    java  -jar mongo-migrations-<version>.jar <path_to_mongo.properties> <path_to_migrationSet.mongo>
+
+
 ### How to run locally with examples from source folder
  Copy required resources
 
