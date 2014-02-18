@@ -1,17 +1,20 @@
 package com.sharethis.mongodb.file;
 
+import com.sharethis.mongodb.connection.MongoProperties;
 import com.sharethis.mongodb.exception.ChangeSetNotFoundException;
 import com.sharethis.mongodb.exception.MigrationScriptNotFoundException;
+import com.sharethis.mongodb.util.PropertyHelper;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.io.File;
 import java.util.ArrayList;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
+import java.util.List;
 
 public class FileReaderTest {
 
@@ -20,23 +23,32 @@ public class FileReaderTest {
     @Mock
     private FileReader mockedReader;
 
+    @Rule
+    public TemporaryFolder tmpFolder = new TemporaryFolder();
+
+    private File mongoSettings;
+
     @Before
     public void init() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        when(mockedReader.getFileAsString(any(String.class))).thenReturn("");
+        mongoSettings = tmpFolder.newFile("file");
 
-        when(mockedReader.getFileAsLines(any(String.class))).thenReturn(new ArrayList<String>());
+        PropertyHelper.prepareProperties(mongoSettings);
     }
 
     @Test(expected = MigrationScriptNotFoundException.class)
-    public void testGetFileAsStringException() throws Exception{
+    public void testGetFileAsStringException() throws Exception {
         reader.getFileAsString(NO_FILE);
     }
 
     @Test
-    public void testGetFileAsString() throws Exception{
-        Assert.assertEquals("", mockedReader.getFileAsString(any(String.class)));
+    public void testGetFileAsString() throws Exception {
+        String properties = MongoProperties.MONGO_HOST + "=" + "host" + "\n" +
+                MongoProperties.MONGO_PORT + "=" + "123" + "\n" +
+                MongoProperties.MONGO_DB + "=" + "db";
+
+        Assert.assertEquals(properties, reader.getFileAsString(mongoSettings.getAbsolutePath()));
     }
 
     @Test(expected = ChangeSetNotFoundException.class)
@@ -46,6 +58,11 @@ public class FileReaderTest {
 
     @Test
     public void testGetFileAsLines() throws Exception {
-        Assert.assertEquals(new ArrayList<String>(), mockedReader.getFileAsLines(NO_FILE));
+        List<String> properties = new ArrayList<>();
+        properties.add(MongoProperties.MONGO_HOST + "=" + "host");
+        properties.add(MongoProperties.MONGO_PORT + "=" + "123");
+        properties.add(MongoProperties.MONGO_DB + "=" + "db");
+
+        Assert.assertEquals(properties, reader.getFileAsLines(mongoSettings.getAbsolutePath()));
     }
 }

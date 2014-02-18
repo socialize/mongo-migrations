@@ -33,14 +33,6 @@ public class InputParametersVerifierTest {
 
     }
 
-//    @After
-//    public void destroy() {
-//        mongoSettings.delete();
-//        migrationsSet.delete();
-//        scriptsFolder.delete();
-//        tmpFolder.delete();
-//    }
-
     @Test
     public void verifyInputResources() throws Exception {
         args[0] = mongoSettings.getAbsolutePath();
@@ -56,13 +48,11 @@ public class InputParametersVerifierTest {
 
     @Test(expected = MongoDBConnectionSettingsNotFoundException.class)
     public void verifyMongoDBConnectionSettingsNotFoundException() throws Exception {
-
         verifier.verifyInputResources( new String[] {"blah", "foo"});
     }
 
     @Test(expected = ChangeSetNotFoundException.class)
     public void verifyChangeSetNotFoundException() throws Exception {
-
         verifier.verifyInputResources( new String[] {mongoSettings.getAbsolutePath(), "foo"});
     }
 

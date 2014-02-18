@@ -14,10 +14,20 @@ public class MongoConnectionSettingsInitializer {
 
     public MongoConnectionSettings initMongoConnectionSettings(String propertiesFieLocation) throws MigrationIOException, PropertyNotFoundException {
         Properties properties = new Properties();
+        FileInputStream inStream = null;
         try {
-            properties.load(new FileInputStream(new File(propertiesFieLocation)));
+            inStream = new FileInputStream(new File(propertiesFieLocation));
+            properties.load(inStream);
         } catch (IOException ioex) {
             throw new MigrationIOException(INIT_ERROR_MESSAGE + ioex.getLocalizedMessage(), ioex.getCause());
+        } finally {
+            if (inStream != null) {
+                try {
+                    inStream.close();
+                } catch (IOException ioex) {
+                    ioex.printStackTrace();
+                }
+            }
         }
 
         String host = properties.getProperty(MongoProperties.MONGO_HOST);

@@ -7,12 +7,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 public class MigrationDaoTest {
 
@@ -31,8 +32,10 @@ public class MigrationDaoTest {
 
     MigrationDao dao;
 
+    DBCollection dbCollection;
+
     @Before
-    public void setup() {
+    public void setup() throws Exception {
         MockitoAnnotations.initMocks(this);
         dao = new MigrationDao(db);
 
@@ -45,7 +48,30 @@ public class MigrationDaoTest {
                 .add("AppliedDate", date)
                 .get();
 
-        setupMockedDao();
+        BasicDBObject ref = new BasicDBObject();
+        BasicDBObject name = new BasicDBObject("Name", 1);
+
+        dbCollection = PowerMockito.mock(DBCollection.class);
+        DBCursor dbCursor = PowerMockito.mock(DBCursor.class);
+        DBObject dbObject = PowerMockito.mock(DBObject.class);
+
+        PowerMockito.doReturn(dbCursor).when(dbCollection).find(ref, name);
+
+        PowerMockito.doReturn(true).doReturn(true)
+                .doReturn(true)
+                .doReturn(false)
+                .when(dbCursor).hasNext();
+
+        PowerMockito.doReturn(dbObject)
+                .doReturn(dbObject)
+                .doReturn(dbObject)
+                .when(dbCursor).next();
+
+        PowerMockito.doReturn("name1")
+                .doReturn("name2")
+                .doReturn("name3")
+                .when(dbObject).get("Name");
+
     }
 
     @Test
@@ -62,11 +88,10 @@ public class MigrationDaoTest {
 
     @Test
     public void testGetAppliedChangesNames() {
-        Assert.assertEquals(new ArrayList<String>(), mockedDao.getAppliedChangesNames(collection));
+        List<String> names = new ArrayList<>();
+        names.add("name1");
+        names.add("name2");
+        names.add("name3");
+        Assert.assertEquals(names, dao.getAppliedChangesNames(dbCollection));
     }
-
-    private void setupMockedDao() {
-        when(mockedDao.getAppliedChangesNames(collection)).thenReturn(new ArrayList<String>());
-    }
-
 }

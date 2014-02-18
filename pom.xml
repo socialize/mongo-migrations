@@ -67,6 +67,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.2</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -91,6 +92,7 @@
                                 <excludes>
                                     <exclude>junit:junit</exclude>
                                     <exclude>jmock:*</exclude>
+                                    <exclude>org.mockito:*</exclude>
                                 </excludes>
                             </artifactSet>
                         </configuration>
@@ -133,7 +135,6 @@
                     <xmlOutput>true</xmlOutput>
                     <xmlOutputDirectory>target/site</xmlOutputDirectory>
                     <outputDirectory>target/site</outputDirectory>
-                    <!--excludeFilterFile>src/test/resources/findbugs-exclude.xml</excludeFilterFile-->
                 </configuration>
             </plugin>
             <plugin>
@@ -167,12 +168,12 @@
                                         <limit>
                                             <counter>INSTRUCTION</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.10</minimum>
+                                            <minimum>0.60</minimum>
                                         </limit>
                                         <limit>
                                             <counter>BRANCH</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.10</minimum>
+                                            <minimum>0.55</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
@@ -182,7 +183,7 @@
                 </executions>
                 <!--configuration>
                     <excludes>
-                        <exclude>**/com/sharethis/loopy/model/request/Mock*</exclude>
+                        <exclude>**/com/*/Mock*</exclude>
                     </excludes>
                 </configuration-->
             </plugin>
@@ -244,6 +245,12 @@
             <version>1.9.5</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>1.5.4</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <reporting>
         <plugins>
@@ -283,7 +290,6 @@
                     <xmlOutput>true</xmlOutput>
                     <xmlOutputDirectory>target/site</xmlOutputDirectory>
                     <outputDirectory>target/site</outputDirectory>
-                    <!--excludeFilterFile>src/test/resources/findbugs-exclude.xml</excludeFilterFile-->
                     <fork>false</fork>
                 </configuration>
             </plugin>

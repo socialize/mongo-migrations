@@ -9,13 +9,13 @@ public class MigrationModel {
     private String scriptBody;
 
     public MigrationModel(Date appliedDate, String scriptName, String scriptBody) {
-        this.appliedDate = appliedDate;
+        this.appliedDate = new Date(appliedDate.getTime());
         this.scriptName = scriptName;
         this.scriptBody = scriptBody;
     }
 
     public Date getAppliedDate() {
-        return appliedDate;
+        return new Date(appliedDate.getTime());
     }
 
     public String getScriptBody() {
