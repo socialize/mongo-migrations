@@ -2,6 +2,7 @@ package com.sharethis.mongodb.file;
 
 import com.sharethis.mongodb.exception.ChangeSetNotFoundException;
 import com.sharethis.mongodb.exception.MigrationScriptNotFoundException;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+@Component
 public class FileReader {
 
     public String getFileAsString(String pathToFile) throws MigrationScriptNotFoundException {

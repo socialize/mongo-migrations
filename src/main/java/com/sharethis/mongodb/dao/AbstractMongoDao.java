@@ -6,4 +6,8 @@ public abstract class AbstractMongoDao {
 
     protected DB db;
 
+    public void setDb(DB db) {
+        this.db = db;
+    }
+
 }

@@ -5,9 +5,13 @@ import com.sharethis.mongodb.migration.MigrationModel;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,6 +19,8 @@ import java.util.List;
 
 import static org.mockito.Mockito.verify;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:/applicationContext.xml"})
 public class MigrationDaoTest {
 
     @Mock
@@ -30,6 +36,7 @@ public class MigrationDaoTest {
 
     private MigrationModel model;
 
+    @Autowired
     MigrationDao dao;
 
     DBCollection dbCollection;
@@ -37,7 +44,7 @@ public class MigrationDaoTest {
     @Before
     public void setup() throws Exception {
         MockitoAnnotations.initMocks(this);
-        dao = new MigrationDao(db);
+        dao.setDb(db);
 
         Date date = new Date(946677600000l);  //01/01/2000 00:00:00 UTC
         model = new MigrationModel(date, "foo", "blah");

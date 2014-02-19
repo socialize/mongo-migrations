@@ -3,12 +3,14 @@ package com.sharethis.mongodb.connection;
 import com.sharethis.mongodb.exception.MigrationIOException;
 import com.sharethis.mongodb.exception.PropertyNotFoundException;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+@Component
 public class MongoConnectionSettingsInitializer {
     private static final String INIT_ERROR_MESSAGE = "Initializing MongoDB connection settings failed. \n";
 

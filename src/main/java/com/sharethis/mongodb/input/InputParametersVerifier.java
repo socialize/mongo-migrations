@@ -4,9 +4,11 @@ import com.sharethis.mongodb.exception.ChangeSetNotFoundException;
 import com.sharethis.mongodb.exception.MongoConnectionSettingsNotFoundException;
 import com.sharethis.mongodb.exception.PropertyNotFoundException;
 import com.sharethis.mongodb.exception.WrongInputParametersException;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 
+@Component
 public class InputParametersVerifier {
 
     public void verifyInputResources(String[] args) throws PropertyNotFoundException, ChangeSetNotFoundException, MongoConnectionSettingsNotFoundException, WrongInputParametersException {

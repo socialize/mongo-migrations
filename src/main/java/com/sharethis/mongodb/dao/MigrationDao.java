@@ -1,20 +1,20 @@
 package com.sharethis.mongodb.dao;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBCollection;
 import com.sharethis.mongodb.migration.MigrationModel;
+import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.List;
 
+@Component
 public class MigrationDao extends AbstractMongoDao {
 
-    public MigrationDao(DB migrationDB) {
-        this.db = migrationDB;
+    public MigrationDao() {
     }
 
     public List<String> getAppliedChangesNames(DBCollection migrationCollection) {

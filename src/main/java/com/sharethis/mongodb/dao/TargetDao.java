@@ -1,11 +1,11 @@
 package com.sharethis.mongodb.dao;
 
-import com.mongodb.DB;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TargetDao extends AbstractMongoDao {
 
-    public TargetDao(DB targetDB) {
-        this.db = targetDB;
+    public TargetDao() {
     }
 
     public void executeScript(String script) {

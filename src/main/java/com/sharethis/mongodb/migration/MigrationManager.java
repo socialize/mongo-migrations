@@ -19,6 +19,8 @@ import com.sharethis.mongodb.file.FileReader;
 import com.sharethis.mongodb.input.InputParametersVerifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.net.UnknownHostException;
 import java.util.List;
@@ -27,24 +29,37 @@ import java.util.ArrayList;
 import java.util.TimeZone;
 import java.util.Date;
 
-
+@Component("migrationManager")
 public class MigrationManager {
 
     public static final String SCRIPTS = "/scripts/";
     private static Logger log = LoggerFactory.getLogger(MigrationManager.class);
 
+    @Autowired
+    private InputParametersVerifier inputParametersVerifier;
+    @Autowired
+    private MongoConnectionSettingsInitializer mongoConnectionSettingsInitializer;
+    @Autowired
+    private MigrationReader migrationReader;
+    @Autowired
+    TargetDao targetDao;
+    @Autowired
+    MigrationDao migrationDao;
+
     public void migrate(String[] inputParams) throws PropertyNotFoundException, ChangeSetNotFoundException, MongoConnectionSettingsNotFoundException, WrongInputParametersException, MigrationIOException, MongoDBConnectionException, MigrationScriptNotFoundException {
 
         log.info("Congrats this is mongodb migration tool");
 
-        new InputParametersVerifier().verifyInputResources(inputParams);
+        inputParametersVerifier = new InputParametersVerifier();
+        inputParametersVerifier.verifyInputResources(inputParams);
 
         String mongoConnectionFile = inputParams[0];
         String changeSetPath = inputParams[1];
         String scriptsFolder = changeSetPath.substring(0, changeSetPath.lastIndexOf("/")) + SCRIPTS;
 
         log.info("Initializing MongoDB connection settings");
-        MongoConnectionSettings mongoConnectionSettings = new MongoConnectionSettingsInitializer().initMongoConnectionSettings(mongoConnectionFile);
+        mongoConnectionSettingsInitializer = new MongoConnectionSettingsInitializer();
+        MongoConnectionSettings mongoConnectionSettings = mongoConnectionSettingsInitializer.initMongoConnectionSettings(mongoConnectionFile);
 
         MongoClient mongoClient;
         try {
@@ -55,13 +70,13 @@ public class MigrationManager {
         }
 
         DB targetDB = mongoClient.getDB(mongoConnectionSettings.getDatabase());
-        TargetDao targetDao = new TargetDao(targetDB);
+        targetDao.setDb(targetDB);
 
-        MigrationReader migrationReader = new MigrationReader();
+        migrationReader = new MigrationReader();
         List<String> availableMigrationsNames = migrationReader.getMigrationNames(changeSetPath);
         log.info("Available migration(s): {}", availableMigrationsNames.toString());
 
-        MigrationDao migrationDao = new MigrationDao(mongoClient.getDB(MigrationSettings.APPLIED_MIGRATIONS_DB_NAME));
+        migrationDao.setDb(mongoClient.getDB(MigrationSettings.APPLIED_MIGRATIONS_DB_NAME));
         DBCollection migrationCollection = migrationDao.createOrUpdateCollection(MigrationSettings.APPLIED_MIGRATIONS_COLLECTION);
 
         List<String> appliedMigrationsNames = migrationDao.getAppliedChangesNames(migrationCollection);
