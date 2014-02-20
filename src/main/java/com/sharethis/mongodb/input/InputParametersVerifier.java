@@ -13,7 +13,7 @@ public class InputParametersVerifier {
 
     public void verifyInputResources(String[] args) throws PropertyNotFoundException, ChangeSetNotFoundException, MongoConnectionSettingsNotFoundException, WrongInputParametersException {
         if (args.length < 2) {
-            throw new WrongInputParametersException();
+            throw new WrongInputParametersException(args);
         }
 
         if (!new File(args[0]).exists()) {
