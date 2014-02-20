@@ -9,12 +9,17 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.File;
 
-
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:/applicationContext.xml"})
 public class InputParametersVerifierTest {
-
+    @Autowired
     private InputParametersVerifier verifier;
     private static String[] args = new String[2];
     @Rule
@@ -26,8 +31,6 @@ public class InputParametersVerifierTest {
 
     @Before
     public void init() throws Exception {
-        verifier = new InputParametersVerifier();
-
         mongoSettings = tmpFolder.newFile(MigrationFiles.MONGO_PROPERTIES);
         migrationsSet = tmpFolder.newFile(MigrationFiles.MIGRATION_SET_MONGO);
         scriptsFolder = tmpFolder.newFolder(MigrationFiles.SCRIPTS);
