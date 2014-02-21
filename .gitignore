@@ -4,9 +4,13 @@
 *.jar
 *.war
 *.ear
-.DS_Store
-target
+
+# IDEA files
 .idea
-logs
-mongo-migrations.iml
 *.iml
+*.ipr
+*.iws
+
+.DS_Store
+/target
+/logs

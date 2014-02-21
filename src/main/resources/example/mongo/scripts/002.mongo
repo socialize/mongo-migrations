@@ -1,0 +1,6 @@
+db.addUser(
+    { "user": "loopy",
+        "pwd": "b3s0cial",
+        "roles": [ "readWrite" ]
+    });
+    

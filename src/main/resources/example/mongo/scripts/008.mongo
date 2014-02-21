@@ -1,0 +1,30 @@
+db.app.insert({
+    "_id" : "sdlkajsdhfljkashdflads",
+    "key" : "asdfjnasdjfhasjdfljasdh",
+    "pid" : "sample_publisher_id",
+    "cd" : ISODate('2013-01-01T00:00:00.000Z'),
+    "md" : ISODate('2013-01-02T00:00:00.000Z'),
+    "nm" : "Sample App 2",
+    "st" : "ACTIVE"
+});
+
+db.app.insert({
+    "_id" : "euwrhfluwerhuhwerweojr",
+    "key" : "oufhquerhfuoahreufhe",
+    "pid" : "sample_publisher_id_2",
+    "cd" : ISODate('2013-01-01T00:00:00.000Z'),
+    "md" : ISODate('2013-01-02T00:00:00.000Z'),
+    "nm" : "Sample App 3",
+    "st" : "ACTIVE"
+});
+
+db.shortlink.insert({
+    "_id" : "foobar",
+    "hash" : "e3d70f88916674cb9e94b6d9f3050b66",
+    "item" : {
+        "title" : "Sample Item",
+        "description" : "Sample Description",
+        "url" : "http://www.polites.com"
+    },
+    "cd" : ISODate("2013-01-01T00:00:00.000Z")
+});

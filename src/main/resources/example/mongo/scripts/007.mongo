@@ -1,0 +1,35 @@
+db.share_events.insert([
+    {"_id":"foobar_hash0","ch":"twitter", "sh_id": "foobar_id"},
+    {"_id":"foobar_hash1","ch":"google_plus", "sh_id": "foobar_id"},
+    {"_id":"foobar_hash2","ch":"email", "sh_id": "foobar_id"},
+    {"_id":"foobar_hash3","ch":"sms", "sh_id": "foobar_id"},
+    {"_id":"foobar_hash3","ch":"facebook", "sh_id": "foobar_id"}
+]);
+
+db.publisher.insert({
+    "_id" : "sample_publisher_id",
+    "nm" : "Sample Publisher",
+    "em" : "jp@sharehtis.com",
+    "cd" : ISODate('2013-01-01T00:00:00.000Z'),
+    "md" : ISODate('2013-01-02T00:00:00.000Z'),
+    "st" : "ACTIVE"
+});
+
+db.publisher.insert({
+    "_id" : "sample_publisher_id_2",
+    "nm" : "Sample Publisher 2",
+    "em" : "jp@sharehtis.com",
+    "cd" : ISODate('2013-01-01T00:00:00.000Z'),
+    "md" : ISODate('2013-01-02T00:00:00.000Z'),
+    "st" : "ACTIVE"
+});
+
+db.app.insert({
+    "_id" : "hkg435723o4tho95fh29",
+    "key" : "4q7cd6ngw3vu7gram5b9b9t6",
+    "pid" : "sample_publisher_id",
+    "cd" : ISODate('2013-01-01T00:00:00.000Z'),
+    "md" : ISODate('2013-01-02T00:00:00.000Z'),
+    "nm" : "Sample App",
+    "st" : "ACTIVE"
+});ction("publisher");

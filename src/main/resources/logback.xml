@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+    <!-- LOGBACK LOGGING HIERARCHY -->
+    <!-- ALL -->
+    <!-- TRACE -->
+    <!-- DEBUG -->
+    <!-- INFO -->
+    <!-- WARN -->
+    <!-- ERROR -->
+
+    <!-- Simple file output -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- THRESHOLD FILTER -->
+        <!-- Puts a threshold on LOGGER and ROOT, i.e. will log level X and above IF LOGGER/ROOT allows it -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+
+        <!-- ENCODER -->
+        <!-- Encoder defaults to ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+
+        <!-- ROLLING POLICY -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <!-- Change filename suffix to gz/zip to archive (?) -->
+            <fileNamePattern>logs/logback-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 64 MB -->
+                <maxFileSize>64 MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+
+        <!-- PRUDENT -->
+        <!-- Enable to safely log to the same file from multiple JVMs. Degrades performance from appr. 10us to 30us per log entry! -->
+        <!-- <prudent>true</prudent> -->
+    </appender>
+
+    <!-- Console output -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- FILTER -->
+        <!-- Enable this to only log level X and above -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+
+        <!-- ENCODER -->
+        <!-- encoder defaults to ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+
+        <!-- TARGET -->
+        <!-- One of the String values System.out or System.err. The default target is System.out. -->
+        <!-- <target>System.err</target> -->
+    </appender>
+
+    <!-- ROOT LEVEL -->
+    <!-- Enable appenders for all log messages. -->
+    <root level="INFO">
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+    <!-- LOGGER LEVEL -->
+    <!-- Overrides ROOT. Will log level X and above unless a threshold filter prevents it -->
+    <logger name="com.sharethis.mongodb" level="INFO"/>
+</configuration>
