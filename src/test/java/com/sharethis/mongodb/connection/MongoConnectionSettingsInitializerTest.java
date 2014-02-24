@@ -9,16 +9,23 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.File;
 import java.io.IOException;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:/applicationContext.xml"})
 public class MongoConnectionSettingsInitializerTest {
 
     @Rule
     public TemporaryFolder tmpFolder = new TemporaryFolder();
 
-    private MongoConnectionSettingsInitializer initializer = new MongoConnectionSettingsInitializer();
+    @Autowired
+    private MongoConnectionSettingsInitializer initializer;
 
     private File mongoSettings;
 

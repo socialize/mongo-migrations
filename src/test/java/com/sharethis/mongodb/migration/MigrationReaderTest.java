@@ -6,14 +6,21 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:/applicationContext.xml"})
 public class MigrationReaderTest {
+    @Autowired
+    MigrationReader reader;
 
-    MigrationReader reader = new MigrationReader();
     List<String> availableNames;
     List<String> appliedNames;
     List<String> diffNames;
@@ -21,7 +28,6 @@ public class MigrationReaderTest {
     @Rule
     public TemporaryFolder tmpFolder = new TemporaryFolder();
     private File migrationsSet;
-
 
     @Before
     public void setup() throws Exception {

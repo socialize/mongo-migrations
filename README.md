@@ -4,7 +4,7 @@ mongo-migrations
 Mongo Migrations Java Library
 
 ### Required environment
-    maven, mongo, java 7
+    maven, java 7
 
 ### How to build
 
@@ -40,6 +40,7 @@ Mongo Migrations Java Library
     -Dmongomigration.properties="./src/main/resources/mongo/mongo.properties,./src/main/resources/mongo/migrationSet.mongo"
 
 ### How to execute mongo migration goal
+
  In case there are configured migration properties in pom.xml, run command:
 
     mvn clean install mongomigration:migrate
