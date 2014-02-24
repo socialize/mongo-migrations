@@ -223,12 +223,12 @@
                                         <limit>
                                             <counter>INSTRUCTION</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.06</minimum>
+                                            <minimum>0.60</minimum>
                                         </limit>
                                         <limit>
                                             <counter>BRANCH</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.05</minimum>
+                                            <minimum>0.50</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
@@ -236,11 +236,11 @@
                         </configuration>
                     </execution>
                 </executions>
-                <!--configuration>
+                <configuration>
                     <excludes>
-                        <exclude>**/com/*/Mock*</exclude>
+                        <exclude>**com/sharethis/mongodb/mojo/HelpMojo.*</exclude>
                     </excludes>
-                </configuration-->
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -375,12 +375,20 @@
                 <configuration>
                     <enableRulesSummary>false</enableRulesSummary>
                     <configLocation>checkstyle-config.xml</configLocation>
+                    <excludes>
+                        <exclude>**com/sharethis/mongodb/mojo/HelpMojo.*</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>3.0.1</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**com/sharethis/mongodb/mojo/HelpMojo.*</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

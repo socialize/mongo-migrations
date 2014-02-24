@@ -1,8 +1,10 @@
 package com.sharethis.mongodb.migration;
 
+import com.sharethis.mongodb.exception.MongoDBConnectionException;
 import com.sharethis.mongodb.util.PropertyHelper;
 import org.junit.Before;
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +42,7 @@ public class MigrationManagerTest {
         PropertyHelper.prepareProperties(mongoSettings.getAbsoluteFile());
     }
 
-    //@Test(expected = MongoDBConnectionException.class)
+    @Test(expected = MongoDBConnectionException.class)
     public void testMongoDBConnectionException() throws Exception {
         manager.migrate(args);
     }
