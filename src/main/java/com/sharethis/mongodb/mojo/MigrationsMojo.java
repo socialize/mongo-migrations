@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 @Mojo(name = "migrate")
-public class MingrationsMojo extends AbstractMojo {
+public class MigrationsMojo extends AbstractMojo {
 
-    private static Logger log = LoggerFactory.getLogger(MingrationsMojo.class);
+    private static Logger log = LoggerFactory.getLogger(MigrationsMojo.class);
 
     @Parameter(property = "mongomigration.properties", required = true)
     private String[] args;
