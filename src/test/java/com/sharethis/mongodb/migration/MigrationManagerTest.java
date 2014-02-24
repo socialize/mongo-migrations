@@ -1,11 +1,8 @@
 package com.sharethis.mongodb.migration;
 
-
-import com.sharethis.mongodb.exception.MongoDBConnectionException;
 import com.sharethis.mongodb.util.PropertyHelper;
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
