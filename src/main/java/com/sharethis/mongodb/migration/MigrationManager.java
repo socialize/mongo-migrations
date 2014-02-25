@@ -50,7 +50,8 @@ public class MigrationManager {
 
         log.info("Congrats this is mongodb migration tool");
 
-        inputParametersVerifier = new InputParametersVerifier();
+        log.info("Verifying migration parameters");
+
         inputParametersVerifier.verifyInputResources(inputParams);
 
         String mongoConnectionFile = inputParams[0];

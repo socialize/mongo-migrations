@@ -1,6 +1,5 @@
 package com.sharethis.mongodb.migration;
 
-
 import com.sharethis.mongodb.exception.MongoDBConnectionException;
 import com.sharethis.mongodb.util.PropertyHelper;
 import org.junit.Before;

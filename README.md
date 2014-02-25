@@ -1,70 +1,50 @@
 mongo-migrations
 ================
 
-
-Mongo Migrations is a tool for running mongo migration scripts.
-This tool also persists state of migration - persists names of already ran migration scripts.
+Mongo Migrations Java Library
 
 ### Required environment
-    maven, java7
+    maven, java 7
 
 ### How to build
- Run from project root.
 
     mvn clean package
 
-### How to run migration
- For running migration it is needed migration tool jar and sources(mongo.properties, migrationSet.mongo, and migration scripts).
- Command structure for running migration tool is:
+### How to run as a too locally
 
-    java  -jar mongo-migrations-<version>.jar <path_to_mongo.properties> <path_to_migrationSet.mongo>
-
-
-### How to run locally with examples from source folder
- Copy required resources
-
-    cp src/main/resources/example/mongo.properties target
-    cp -R src/main/resources/example/mongo target
+    cp src/main/resources/example/mongo.properties /target
+    cp -R src/main/resources/example/mongo /target
     cd target
-
- Run migration tool
-
-    java  -jar mongo-migrations-1.0-SNAPSHOT.jar mongo.properties mongo/migrationSet.mongo
+    java  -jar mongo-migrations-1.0-SNAPSHOT.jar mongo.properties /mongo/changeSet.mongo
 
 
-### Filesystem structure example for running migration tool with command above
+### How to added as plugin into project
 
-    /
-      mongo-migrations-1.0-SNAPSHOT.jar   - mongo migration tool
-      mongo.properties                    - mongo connection properties
-      migrationSet.mongo                  - file with set of available migrations
-      scripts /                           - directory with migration script files
-                001.mongo                   - mongo migration script identified as 001
-                002.mongo                   - mongo migration script identified as 002
-                003.mongo                   - mongo migration script identified as 003
+    <plugin>
+        <groupId>com.sharethis.mongo</groupId>
+        <artifactId>mongomigration</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </plugin>
 
+### How to pass parameters from pom.xml
 
-### Example of mongo.properties
+     <configuration>
+        <args>
+            <arg>./src/main/resources/mongo/mongo.properties</arg>
+            <arg>./src/main/resources/mongo/migrationSet.mongo</arg>
+        </args>
+     </configuration>
 
-    mongo.host=localhost
-    mongo.port=27017
-    mongo.db=example
-    mongo.username=
-    mongo.password=
+### How to pass parameters from command line
 
-### Example of migrationSet.mongo
+    -Dmongomigration.properties="./src/main/resources/mongo/mongo.properties,./src/main/resources/mongo/migrationSet.mongo"
 
-    001.mongo
-    002.mongo
-    003.mongo
+### How to execute mongo migration goal
 
-### Example of migration script file(001.mongo)
+ In case there are configured migration properties in pom.xml, run command:
 
-    db.createCollection("analytic_events");
-    db.createCollection("share_events");
-    db.analytic_events.ensureIndex({
-    	"_id.ap" : 1,
-    	"_id.dt" : 1,
-    	"_id.ch" : 1,
-        "_id.ev" : 1
-    });
+    mvn clean install mongomigration:migrate
+
+ In case there is need to pass parameters from command line, run the command
+
+    mvn clean install mongomigration:migrate -Dmongomigration.properties="./src/main/resources/mongo/mongo.properties,./src/main/resources/mongo/migrationSet.mongo"
