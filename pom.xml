@@ -2,8 +2,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.sharethis.mongo</groupId>
-    <artifactId>mongo-migrations</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>mongomigration</artifactId>
+    <packaging>maven-plugin</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>mongo-migrations</name>
     <url>https://github.com/socialize/mongo-migrations</url>
@@ -32,6 +32,8 @@
         <jacoco.version>0.6.3.201306030806</jacoco.version>
         <findbugs.version>2.5.2</findbugs.version>
         <spring.version>4.0.1.RELEASE</spring.version>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
 
     <profiles>
@@ -64,6 +66,31 @@
         </resources>
 
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-plugin-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <!-- see http://jira.codehaus.org/browse/MNG-5346 -->
+                    <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>mojo-descriptor</id>
+                        <goals>
+                            <goal>descriptor</goal>
+                        </goals>
+                    </execution>
+                    <!-- if you want to generate help goal -->
+                    <execution>
+                        <id>help-goal</id>
+                        <goals>
+                            <goal>helpmojo</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.4</version>
@@ -155,12 +182,20 @@
                 <configuration>
                     <enableRulesSummary>false</enableRulesSummary>
                     <configLocation>checkstyle-config.xml</configLocation>
+                    <excludes>
+                        com/sharethis/mongodb/mojo/HelpMojo.*
+                    </excludes>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>3.0.1</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**com/sharethis/mongodb/mojo/HelpMojo.*</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -171,6 +206,7 @@
                     <xmlOutput>true</xmlOutput>
                     <xmlOutputDirectory>target/site</xmlOutputDirectory>
                     <outputDirectory>target/site</outputDirectory>
+                    <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
                 </configuration>
             </plugin>
             <plugin>
@@ -204,12 +240,12 @@
                                         <limit>
                                             <counter>INSTRUCTION</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.60</minimum>
+                                            <minimum>0.70</minimum>
                                         </limit>
                                         <limit>
                                             <counter>BRANCH</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.55</minimum>
+                                            <minimum>0.65</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
@@ -219,7 +255,8 @@
                 </executions>
                 <configuration>
                     <excludes>
-                        <exclude>**/com/sharethis/mongodb/main/**</exclude>
+                        <exclude>**com/sharethis/mongodb/mojo/HelpMojo.*</exclude>
+                        <exclude>**com/sharethis/mongodb/main/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -243,6 +280,27 @@
     </build>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-plugin-api</artifactId>
+            <version>3.1.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse.sisu</groupId>
+                    <artifactId>org.eclipse.sisu.inject</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugin-tools</groupId>
+            <artifactId>maven-plugin-annotations</artifactId>
+            <version>3.2</version>
+            <!-- annotations are not needed for plugin execution so you can remove this dependency
+                 for execution with using provided scope -->
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -335,12 +393,18 @@
                 <configuration>
                     <enableRulesSummary>false</enableRulesSummary>
                     <configLocation>checkstyle-config.xml</configLocation>
+                    <excludes>**com/sharethis/mongodb/mojo/HelpMojo.*</excludes>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>3.0.1</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**com/sharethis/mongodb/mojo/HelpMojo.*</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -351,6 +415,7 @@
                     <xmlOutputDirectory>target/site</xmlOutputDirectory>
                     <outputDirectory>target/site</outputDirectory>
                     <fork>false</fork>
+                    <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
                 </configuration>
             </plugin>
 

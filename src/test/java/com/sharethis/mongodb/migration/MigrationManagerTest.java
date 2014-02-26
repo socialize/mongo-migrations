@@ -88,6 +88,7 @@ public class MigrationManagerTest {
 
         when(mongoConnectionSettingsInitializer.initMongoConnectionSettings("bar")).thenReturn(mongoConnectionSettings);
         when(mongoConnectionSettingsInitializer.initMongoConnectionSettings("wrong_path")).thenReturn(mongoConnectionSettingsMock);
+
         doNothing().when(mongoConnectionSettingsInitializer).verifyMongoConnectionSettings(any(MongoConnectionSettings.class));
 
         when(mongoClientFactory.getMongoClient(mongoConnectionSettings)).thenReturn(mongoClient);
@@ -106,8 +107,6 @@ public class MigrationManagerTest {
         doNothing().when(migrationDao).addAppliedChanges(any(DBCollection.class), any(MigrationModel.class));
 
     }
-
-
 
     @Test(expected = MongoDBConnectionException.class)
     public void testMongoDBConnectionException() throws Exception {
