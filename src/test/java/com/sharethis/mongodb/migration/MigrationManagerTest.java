@@ -86,7 +86,7 @@ public class MigrationManagerTest {
         tmpFolder.newFile("/scripts/1.mongo");
         tmpFolder.newFile("/scripts/2.mongo");
 
-        when(mongoConnectionSettingsInitializer.initMongoConnectionSettings("blah")).thenReturn(mongoConnectionSettings);
+        when(mongoConnectionSettingsInitializer.initMongoConnectionSettings("bar")).thenReturn(mongoConnectionSettings);
         when(mongoConnectionSettingsInitializer.initMongoConnectionSettings("wrong_path")).thenReturn(mongoConnectionSettingsMock);
         doNothing().when(mongoConnectionSettingsInitializer).verifyMongoConnectionSettings(any(MongoConnectionSettings.class));
 
@@ -102,7 +102,7 @@ public class MigrationManagerTest {
         notApplied.add("1.mongo");
         when(migrationReader.findNotApplied(any(List.class), any(List.class))).thenReturn(notApplied);
 
-        doNothing().when(targetDao).executeScript(eq("blah script"));
+        doNothing().when(targetDao).executeScript(eq("bar script"));
         doNothing().when(migrationDao).addAppliedChanges(any(DBCollection.class), any(MigrationModel.class));
 
     }
@@ -112,15 +112,15 @@ public class MigrationManagerTest {
     @Test(expected = MongoDBConnectionException.class)
     public void testMongoDBConnectionException() throws Exception {
         args[0] = "wrong_path";
-        args[1] = "foo/blah";
+        args[1] = "foo/bar";
         migrationManager.migrate(args);
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void testMigrationManagerFlow() throws Exception {
-        args[0] = "blah";
-        args[1] = "foo/blah";
+        args[0] = "bar";
+        args[1] = "foo/bar";
 
 
         migrationManager.migrate(args);
@@ -171,7 +171,7 @@ public class MigrationManagerTest {
     @Test
     public void testApplyMigration() {
         List<MigrationModel> models = new ArrayList<>();
-        models.add(new MigrationModel(new Date(), "blah", "blah script"));
+        models.add(new MigrationModel(new Date(), "bar", "bar script"));
 
         migrationManager.applyNewMigrations(any(DBCollection.class), models);
     }

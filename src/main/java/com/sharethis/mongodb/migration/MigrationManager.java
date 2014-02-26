@@ -81,7 +81,7 @@ public class MigrationManager {
         List<MigrationModel> migrations = getMigrations(scriptsFolder, newMigrationsNames, getCurrentDate());
 
         applyNewMigrations(migrationCollection, migrations);
-        log.info("BD migration was successful");
+        log.info("DB migration was successful");
 
     }
 
@@ -99,13 +99,11 @@ public class MigrationManager {
             log.info("Database is up-to-date");
             return false;
         } else {
-            log.info("There where found {} migration files to be applied", newMigrationsNames.size());
+            log.info("There where {} migration files found to be applied", newMigrationsNames.size());
             log.info("Migration files to be applied are : " + newMigrationsNames.toString());
             return true;
         }
     }
-
-
 
     void initDao(MongoConnectionSettings mongoConnectionSettings) throws MongoDBConnectionException {
         MongoClient mongoClient = mongoClientFactory.getMongoClient(mongoConnectionSettings);
