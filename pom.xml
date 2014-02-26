@@ -217,11 +217,11 @@
                         </configuration>
                     </execution>
                 </executions>
-                <!--configuration>
+                <configuration>
                     <excludes>
-                        <exclude>**/com/*/Mock*</exclude>
+                        <exclude>**/com/sharethis/mongodb/main/**</exclude>
                     </excludes>
-                </configuration-->
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

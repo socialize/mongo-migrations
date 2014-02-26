@@ -22,14 +22,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.TimeZone;
 import java.util.Date;
 
-@Component("migrationManager")
+@Component
 public class MigrationManager {
 
     public static final String SCRIPTS = "/scripts/";
@@ -45,6 +44,10 @@ public class MigrationManager {
     TargetDao targetDao;
     @Autowired
     MigrationDao migrationDao;
+    @Autowired
+    MongoClientFactory mongoClientFactory;
+    @Autowired
+    FileReader fileReader;
 
     public void migrate(String[] inputParams) throws PropertyNotFoundException, ChangeSetNotFoundException, MongoConnectionSettingsNotFoundException, WrongInputParametersException, MigrationIOException, MongoDBConnectionException, MigrationScriptNotFoundException {
 
@@ -82,7 +85,7 @@ public class MigrationManager {
 
     }
 
-    private void applyNewMigrations(DBCollection migrationCollection, List<MigrationModel> migrations) {
+    void applyNewMigrations(DBCollection migrationCollection, List<MigrationModel> migrations) {
         for (MigrationModel migration : migrations) {
             log.info("Applying migration file : {}", migration.getScriptName());
             log.info("\n" + migration.getScriptBody());
@@ -91,44 +94,40 @@ public class MigrationManager {
         }
     }
 
-    private boolean isThereNewMigrations(List<String> newMigrationsNames) {
+    boolean isThereNewMigrations(List<String> newMigrationsNames) {
         if (newMigrationsNames.isEmpty()) {
             log.info("Database is up-to-date");
-            return true;
+            return false;
         } else {
             log.info("There where found {} migration files to be applied", newMigrationsNames.size());
             log.info("Migration files to be applied are : " + newMigrationsNames.toString());
-        }
-        return false;
-    }
-
-    private MongoClient getMongoClient(MongoConnectionSettings mongoConnectionSettings) throws MongoDBConnectionException {
-        try {
-            return new MongoClient(mongoConnectionSettings.getHostname(), mongoConnectionSettings.getPort());
-        } catch (UnknownHostException uhex) {
-            throw new MongoDBConnectionException(mongoConnectionSettings.getHostname(), mongoConnectionSettings.getPort());
-
+            return true;
         }
     }
 
-    public void initDao(MongoConnectionSettings mongoConnectionSettings) throws MongoDBConnectionException {
-        MongoClient mongoClient = getMongoClient(mongoConnectionSettings);
+
+
+    void initDao(MongoConnectionSettings mongoConnectionSettings) throws MongoDBConnectionException {
+        MongoClient mongoClient = mongoClientFactory.getMongoClient(mongoConnectionSettings);
         DB targetDB = mongoClient.getDB(mongoConnectionSettings.getDatabase());
         targetDao.setDb(targetDB);
         migrationDao.setDb(mongoClient.getDB(MigrationSettings.APPLIED_MIGRATIONS_DB_NAME));
     }
 
-    private List<MigrationModel> getMigrations(String scriptsFolder, List<String> notYetApplied, Date date) throws MigrationScriptNotFoundException {
+    List<MigrationModel> getMigrations(String scriptsFolder, List<String> notYetApplied, Date date) throws MigrationScriptNotFoundException {
         List<MigrationModel> migrations = new ArrayList<>();
         for (String change : notYetApplied) {
-            String body = new FileReader().getFileAsString(scriptsFolder + change);
+            String body = fileReader.getFileAsString(scriptsFolder + change);
             migrations.add(new MigrationModel(date, change, body));
         }
         return migrations;
     }
 
-    private static Date getCurrentDate() {
+    Date getCurrentDate() {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
     }
 }
