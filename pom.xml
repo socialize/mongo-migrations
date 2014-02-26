@@ -257,6 +257,7 @@
                     <excludes>
                         <exclude>**com/sharethis/mongodb/mojo/HelpMojo.*</exclude>
                         <exclude>**com/sharethis/mongodb/main/**</exclude>
+                        <exclude>**com/sharethis/mongodb/mojo/MigrationsMojo.*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
