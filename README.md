@@ -18,7 +18,7 @@ Mongo Migrations Java Library
     java  -jar mongo-migrations-1.0-SNAPSHOT.jar mongo.properties /mongo/changeSet.mongo
 
 
-### How to added as plugin into project
+### How to add as plugin into project
 
     <plugin>
         <groupId>com.sharethis.mongo</groupId>
