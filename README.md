@@ -15,7 +15,7 @@ Mongo Migrations Java Library
     cp src/main/resources/example/mongo.properties /target
     cp -R src/main/resources/example/mongo /target
     cd target
-    java  -jar mongo-migrations-1.0-SNAPSHOT.jar mongo.properties /mongo/changeSet.mongo
+    java  -jar mongo-migrations-1.0-SNAPSHOT.jar mongo.properties /mongo/migrationSet.mongo
 
 
 ### How to added as plugin into project
