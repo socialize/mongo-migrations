@@ -10,7 +10,7 @@ Mongo Migrations Java Library
 
     mvn clean package
 
-### How to run as a too locally
+### How to run as a tool locally
 
     cp src/main/resources/example/mongo.properties /target
     cp -R src/main/resources/example/mongo /target
