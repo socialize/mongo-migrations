@@ -10,7 +10,7 @@ Mongo Migrations Java Library
 
     mvn clean package
 
-### How to run as a too locally
+### How to run as a tool locally
 
     cp src/main/resources/example/mongo.properties /target
     cp -R src/main/resources/example/mongo /target
@@ -18,7 +18,7 @@ Mongo Migrations Java Library
     java  -jar mongo-migrations-1.0-SNAPSHOT.jar mongo.properties /mongo/migrationSet.mongo
 
 
-### How to added as plugin into project
+### How to add as plugin into project
 
     <plugin>
         <groupId>com.sharethis.mongo</groupId>

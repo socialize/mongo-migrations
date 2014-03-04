@@ -12,6 +12,7 @@ import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -24,7 +25,9 @@ import java.util.List;
 public class FileReaderTest {
 
     public static final String NO_FILE = "no_file";
-    private FileReader reader = new FileReader();
+
+    @Autowired
+    private FileReader fileReader;
     @Mock
     private FileReader mockedReader;
 
@@ -44,7 +47,7 @@ public class FileReaderTest {
 
     @Test(expected = MigrationScriptNotFoundException.class)
     public void testGetFileAsStringException() throws Exception {
-        reader.getFileAsString(NO_FILE);
+        fileReader.getFileAsString(NO_FILE);
     }
 
     @Test
@@ -53,12 +56,12 @@ public class FileReaderTest {
                 MongoProperties.MONGO_PORT + "=" + "123" + "\n" +
                 MongoProperties.MONGO_DB + "=" + "db";
 
-        Assert.assertEquals(properties, reader.getFileAsString(mongoSettings.getAbsolutePath()));
+        Assert.assertEquals(properties, fileReader.getFileAsString(mongoSettings.getAbsolutePath()));
     }
 
     @Test(expected = ChangeSetNotFoundException.class)
     public void testGetFileAsLinesException() throws Exception {
-        reader.getFileAsLines(NO_FILE);
+        fileReader.getFileAsLines(NO_FILE);
     }
 
     @Test
@@ -68,6 +71,6 @@ public class FileReaderTest {
         properties.add(MongoProperties.MONGO_PORT + "=" + "123");
         properties.add(MongoProperties.MONGO_DB + "=" + "db");
 
-        Assert.assertEquals(properties, reader.getFileAsLines(mongoSettings.getAbsolutePath()));
+        Assert.assertEquals(properties, fileReader.getFileAsLines(mongoSettings.getAbsolutePath()));
     }
 }

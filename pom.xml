@@ -53,7 +53,15 @@
         <resources>
             <resource>
                 <filtering>true</filtering>
+
                 <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>example/**</exclude>
+                </excludes>
+
+            </resource>
+            <resource>
+                <directory>${loopy.profile.path}</directory>
             </resource>
         </resources>
 
@@ -249,6 +257,7 @@
                     <excludes>
                         <exclude>**com/sharethis/mongodb/mojo/HelpMojo.*</exclude>
                         <exclude>**com/sharethis/mongodb/main/**</exclude>
+                        <exclude>**com/sharethis/mongodb/mojo/MigrationsMojo.*</exclude>
                     </excludes>
                 </configuration>
             </plugin>

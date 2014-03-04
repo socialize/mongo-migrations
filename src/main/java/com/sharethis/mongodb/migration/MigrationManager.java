@@ -22,14 +22,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.TimeZone;
 import java.util.Date;
 
-@Component("migrationManager")
+@Component
 public class MigrationManager {
 
     public static final String SCRIPTS = "/scripts/";
@@ -45,12 +44,14 @@ public class MigrationManager {
     TargetDao targetDao;
     @Autowired
     MigrationDao migrationDao;
+    @Autowired
+    MongoClientFactory mongoClientFactory;
+    @Autowired
+    FileReader fileReader;
 
     public void migrate(String[] inputParams) throws PropertyNotFoundException, ChangeSetNotFoundException, MongoConnectionSettingsNotFoundException, WrongInputParametersException, MigrationIOException, MongoDBConnectionException, MigrationScriptNotFoundException {
 
         log.info("Congrats this is mongodb migration tool");
-
-        log.info("Verifying migration parameters");
 
         inputParametersVerifier.verifyInputResources(inputParams);
 
@@ -59,67 +60,72 @@ public class MigrationManager {
         String scriptsFolder = changeSetPath.substring(0, changeSetPath.lastIndexOf("/")) + SCRIPTS;
 
         log.info("Initializing MongoDB connection settings");
-        mongoConnectionSettingsInitializer = new MongoConnectionSettingsInitializer();
         MongoConnectionSettings mongoConnectionSettings = mongoConnectionSettingsInitializer.initMongoConnectionSettings(mongoConnectionFile);
 
-        MongoClient mongoClient;
-        try {
-            mongoClient = new MongoClient(mongoConnectionSettings.getHostname(), mongoConnectionSettings.getPort());
-        } catch (UnknownHostException uhex) {
-            throw new MongoDBConnectionException(mongoConnectionSettings.getHostname(), mongoConnectionSettings.getPort());
+        initDao(mongoConnectionSettings);
 
-        }
-
-        DB targetDB = mongoClient.getDB(mongoConnectionSettings.getDatabase());
-        targetDao.setDb(targetDB);
-
-        migrationReader = new MigrationReader();
         List<String> availableMigrationsNames = migrationReader.getMigrationNames(changeSetPath);
         log.info("Available migration(s): {}", availableMigrationsNames.toString());
 
-        migrationDao.setDb(mongoClient.getDB(MigrationSettings.APPLIED_MIGRATIONS_DB_NAME));
         DBCollection migrationCollection = migrationDao.createOrUpdateCollection(MigrationSettings.APPLIED_MIGRATIONS_COLLECTION);
 
         List<String> appliedMigrationsNames = migrationDao.getAppliedChangesNames(migrationCollection);
         log.info("Applied migration(s): {}", appliedMigrationsNames.toString());
 
-
         List<String> newMigrationsNames = migrationReader.findNotApplied(availableMigrationsNames, appliedMigrationsNames);
 
-        if (newMigrationsNames.isEmpty()) {
-            log.info("Database is up-to-date");
+        if (!isThereNewMigrations(newMigrationsNames)) {
             return;
-        } else {
-            log.info("There where found {} migration files to be applied", newMigrationsNames.size());
-            log.info("Migration files to be applied are : " + newMigrationsNames.toString());
         }
 
         List<MigrationModel> migrations = getMigrations(scriptsFolder, newMigrationsNames, getCurrentDate());
 
+        applyNewMigrations(migrationCollection, migrations);
+        log.info("DB migration was successful");
 
+    }
+
+    void applyNewMigrations(DBCollection migrationCollection, List<MigrationModel> migrations) {
         for (MigrationModel migration : migrations) {
             log.info("Applying migration file : {}", migration.getScriptName());
             log.info("\n" + migration.getScriptBody());
             targetDao.executeScript(migration.getScriptBody());
             migrationDao.addAppliedChanges(migrationCollection, migration);
         }
-
-        log.info("BD migration was successful");
-
     }
 
-    private List<MigrationModel> getMigrations(String scriptsFolder, List<String> notYetApplied, Date date) throws MigrationScriptNotFoundException {
+    boolean isThereNewMigrations(List<String> newMigrationsNames) {
+        if (newMigrationsNames.isEmpty()) {
+            log.info("Database is up-to-date");
+            return false;
+        } else {
+            log.info("There where {} migration files found to be applied", newMigrationsNames.size());
+            log.info("Migration files to be applied are : " + newMigrationsNames.toString());
+            return true;
+        }
+    }
+
+    void initDao(MongoConnectionSettings mongoConnectionSettings) throws MongoDBConnectionException {
+        MongoClient mongoClient = mongoClientFactory.getMongoClient(mongoConnectionSettings);
+        DB targetDB = mongoClient.getDB(mongoConnectionSettings.getDatabase());
+        targetDao.setDb(targetDB);
+        migrationDao.setDb(mongoClient.getDB(MigrationSettings.APPLIED_MIGRATIONS_DB_NAME));
+    }
+
+    List<MigrationModel> getMigrations(String scriptsFolder, List<String> notYetApplied, Date date) throws MigrationScriptNotFoundException {
         List<MigrationModel> migrations = new ArrayList<>();
         for (String change : notYetApplied) {
-            String body = new FileReader().getFileAsString(scriptsFolder + change);
+            String body = fileReader.getFileAsString(scriptsFolder + change);
             migrations.add(new MigrationModel(date, change, body));
         }
         return migrations;
     }
 
-    private static Date getCurrentDate() {
+    Date getCurrentDate() {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
     }
-
 }
