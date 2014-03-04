@@ -12,11 +12,7 @@ Mongo Migrations Java Library
 
 ### How to run as a tool locally
 
-    cp src/main/resources/example/mongo.properties /target
-    cp -R src/main/resources/example/mongo /target
-    cd target
-    java  -jar mongo-migrations-1.0-SNAPSHOT.jar mongo.properties /mongo/migrationSet.mongo
-
+    java  -jar target/mongo-migrations.jar src/main/resources/example/mongo.properties src/main/resources/example/mongo/migrationSet.mongo
 
 ### How to add as plugin into project
 
