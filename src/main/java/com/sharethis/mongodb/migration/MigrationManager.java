@@ -109,7 +109,7 @@ public class MigrationManager {
         MongoClient mongoClient = mongoClientFactory.getMongoClient(mongoConnectionSettings);
         DB targetDB = mongoClient.getDB(mongoConnectionSettings.getDatabase());
         targetDao.setDb(targetDB);
-        migrationDao.setDb(mongoClient.getDB(MigrationSettings.APPLIED_MIGRATIONS_DB_NAME));
+        migrationDao.setDb(targetDB);
     }
 
     List<MigrationModel> getMigrations(String scriptsFolder, List<String> notYetApplied, Date date) throws MigrationScriptNotFoundException {
