@@ -21,7 +21,7 @@ Mongo Migrations Java Library
 ### How to add as plugin into project
 
     <plugin>
-        <groupId>com.sharethis.mongo</groupId>
+        <groupId>com.sharethis</groupId>
         <artifactId>mongomigration</artifactId>
         <version>1.0-SNAPSHOT</version>
     </plugin>
