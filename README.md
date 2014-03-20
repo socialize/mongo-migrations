@@ -3,8 +3,22 @@ mongo-migrations
 
 Mongo Migrations Java Library
 
+Mongo Migrations is 3-rd party java library and maven plugin for managing mongo migrations.
+Migration state is persisted into DB (collection "applied_migrations").
+To run this tool/plugin it is required to pass 2 input parameters: mongo.properties location and migrationSet.mongo location.
+
+mongo.properties is simple properties file with mongo connection configuration.
+migrationSet.mongo is a file with listed mongo migration scripts files.
+
+Examples of such file could be fond in project(src/resources/example)
+
+
 ### Required environment
-    maven, java 7
+    maven 3, java 7
+
+### Public key
+
+Public key short id is 48C040FE
 
 ### How to build
 
@@ -12,11 +26,7 @@ Mongo Migrations Java Library
 
 ### How to run as a tool locally
 
-    cp src/main/resources/example/mongo.properties /target
-    cp -R src/main/resources/example/mongo /target
-    cd target
-    java  -jar mongo-migrations-1.0-SNAPSHOT.jar mongo.properties /mongo/migrationSet.mongo
-
+    java  -jar target/mongo-migrations.jar src/main/resources/example/mongo.properties src/main/resources/example/mongo/migrationSet.mongo
 
 ### How to add as plugin into project
 
@@ -26,7 +36,7 @@ Mongo Migrations Java Library
         <version>1.0-SNAPSHOT</version>
     </plugin>
 
-### How to pass parameters from pom.xml
+### How to pass input parameters from pom.xml
 
      <configuration>
         <args>
@@ -35,7 +45,7 @@ Mongo Migrations Java Library
         </args>
      </configuration>
 
-### How to pass parameters from command line
+### How to pass input parameters from command line
 
     -Dmongomigration.properties="./src/main/resources/mongo/mongo.properties,./src/main/resources/mongo/migrationSet.mongo"
 
