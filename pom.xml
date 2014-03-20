@@ -6,7 +6,7 @@
     <packaging>maven-plugin</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>mongo-migrations</name>
-
+    <description>The maven mongo migration plugin</description>
     <url>https://github.com/socialize/mongo-migrations</url>
 
     <scm>
@@ -22,6 +22,14 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <developers>
+        <developer>
+            <id>imosquera</id>
+            <name>isaac</name>
+            <email>isaac@sharethis.com</email>
+        </developer>
+    </developers>
 
     <distributionManagement>
         <snapshotRepository>
