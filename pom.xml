@@ -6,12 +6,30 @@
     <packaging>maven-plugin</packaging>
     <version>1.0.1-SNAPSHOT</version>
     <name>mongo-migrations</name>
+    <description>The maven mongo migration plugin</description>
+    <url>https://github.com/socialize/mongo-migrations</url>
 
     <scm>
         <connection>scm:git:git@github.com:socialize/mongo-migrations.git</connection>
         <developerConnection>scm:git:git@github.com:socialize/mongo-migrations.git</developerConnection>
         <url>https://github.com/socialize/mongo-migrations</url>
     </scm>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>imosquera</id>
+            <name>isaac</name>
+            <email>isaac@sharethis.com</email>
+        </developer>
+    </developers>
 
     <distributionManagement>
         <snapshotRepository>
@@ -24,8 +42,6 @@
             <name>Sonatype Nexus release repository</name>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
-        
-
     </distributionManagement>
 
     <properties>

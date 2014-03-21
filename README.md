@@ -33,7 +33,7 @@ Public key short id is 48C040FE
     <plugin>
         <groupId>com.sharethis</groupId>
         <artifactId>mongomigration</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </plugin>
 
 ### How to pass input parameters from pom.xml
