@@ -141,8 +141,10 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
-                        <phase>package</phase> <!-- bind to the packaging phase -->
+                        <id>make-assembly</id>
+                        <!-- this is used for inheritance merges -->
+                        <phase>package</phase>
+                        <!-- bind to the packaging phase -->
                         <goals>
                             <goal>single</goal>
                         </goals>
@@ -226,6 +228,15 @@
                         com/sharethis/mongodb/mojo/HelpMojo.*
                     </excludes>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>checkstyle-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>test</phase>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -236,6 +247,16 @@
                         <exclude>**com/sharethis/mongodb/mojo/HelpMojo.*</exclude>
                     </excludes>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>pmd-check</id>
+                        <goals>
+                            <goal>check</goal>
+                            <goal>cpd</goal>
+                        </goals>
+                        <phase>test</phase>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -248,6 +269,15 @@
                     <outputDirectory>target/site</outputDirectory>
                     <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>findbugs-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>test</phase>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -299,22 +329,6 @@
                         <exclude>**com/sharethis/mongodb/main/**</exclude>
                         <exclude>**com/sharethis/mongodb/mojo/MigrationsMojo.*</exclude>
                     </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
-                <configuration>
-                    <executable>mvn</executable>
-                    <arguments>
-                        <argument>clean</argument>
-                        <argument>verify</argument>
-                        <argument>checkstyle:check</argument>
-                        <argument>pmd:check</argument>
-                        <argument>pmd:cpd</argument>
-                        <argument>findbugs:check</argument>
-                    </arguments>
                 </configuration>
             </plugin>
         </plugins>
