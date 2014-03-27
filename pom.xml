@@ -206,7 +206,12 @@
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.16</version>
+                <version>2.17</version>
+                <configuration>
+                    <forkCount>4</forkCount>
+                    <reuseForks>true</reuseForks>
+                    <argLine>-XX:MaxPermSize=176m</argLine>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -226,10 +231,13 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>2.12</version>
                 <configuration>
+                    <fork>true</fork>
                     <enableRulesSummary>false</enableRulesSummary>
                     <configLocation>checkstyle-config.xml</configLocation>
                     <excludes>com/sharethis/mongodb/mojo/HelpMojo.*</excludes>
                 </configuration>
+                <!-- does not work. executing goal 'site' throws exception-->
+                <!--ERROR] Failed to execute goal org.apache.maven.plugins:maven-site-plugin:3.3:site (default-site) on project mongomigration: failed to get report for org.apache.maven.plugins:maven-surefire-report-plugin: Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.17:test (default-test) on project mongomigration: Unable to parse configuration of mojo org.apache.maven.plugins:maven-surefire-plugin:2.17:test for parameter excludes: Cannot assign configuration entry 'excludes' with value 'com/sharethis/mongodb/mojo/HelpMojo.*' of type java.lang.String to property of type java.util.List-->
                 <!--executions>
                     <execution>
                         <id>checkstyle-check</id>
@@ -265,7 +273,7 @@
                 <artifactId>findbugs-maven-plugin</artifactId>
                 <version>${findbugs.version}</version>
                 <configuration>
-                    <fork>false</fork>
+                    <fork>true</fork>
                     <xmlOutput>true</xmlOutput>
                     <xmlOutputDirectory>target/site</xmlOutputDirectory>
                     <outputDirectory>target/site</outputDirectory>
@@ -448,6 +456,7 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>2.12</version>
                 <configuration>
+                    <fork>true</fork>
                     <enableRulesSummary>false</enableRulesSummary>
                     <configLocation>checkstyle-config.xml</configLocation>
                     <excludes>**com/sharethis/mongodb/mojo/HelpMojo.*</excludes>
@@ -479,7 +488,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.16</version>
+                <version>2.17</version>
+                <configuration>
+                    <forkCount>2</forkCount>
+                    <reuseForks>true</reuseForks>
+                    <argLine>-XX:MaxPermSize=176m</argLine>
+                </configuration>
             </plugin>
         </plugins>
     </reporting>
