@@ -220,7 +220,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.10</version>
+                <version>2.12</version>
                 <configuration>
                     <enableRulesSummary>false</enableRulesSummary>
                     <configLocation>checkstyle-config.xml</configLocation>
@@ -228,7 +228,7 @@
                         com/sharethis/mongodb/mojo/HelpMojo.*
                     </excludes>
                 </configuration>
-                <executions>
+                <!--executions>
                     <execution>
                         <id>checkstyle-check</id>
                         <goals>
@@ -236,7 +236,7 @@
                         </goals>
                         <phase>test</phase>
                     </execution>
-                </executions>
+                </executions-->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -244,7 +244,7 @@
                 <version>3.0.1</version>
                 <configuration>
                     <excludes>
-                        <exclude>**com/sharethis/mongodb/mojo/HelpMojo.*</exclude>
+                        <exclude>com/sharethis/mongodb/mojo/HelpMojo.*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
@@ -444,7 +444,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.10</version>
+                <version>2.12</version>
                 <configuration>
                     <enableRulesSummary>false</enableRulesSummary>
                     <configLocation>checkstyle-config.xml</configLocation>
@@ -457,7 +457,7 @@
                 <version>3.0.1</version>
                 <configuration>
                     <excludes>
-                        <exclude>**com/sharethis/mongodb/mojo/HelpMojo.*</exclude>
+                        <exclude>com/sharethis/mongodb/mojo/HelpMojo.*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -469,7 +469,7 @@
                     <xmlOutput>true</xmlOutput>
                     <xmlOutputDirectory>target/site</xmlOutputDirectory>
                     <outputDirectory>target/site</outputDirectory>
-                    <fork>false</fork>
+                    <fork>true</fork>
                     <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
                 </configuration>
             </plugin>
