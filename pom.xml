@@ -205,6 +205,10 @@
                 </executions>
             </plugin>
             <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.16</version>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.3</version>
@@ -224,9 +228,7 @@
                 <configuration>
                     <enableRulesSummary>false</enableRulesSummary>
                     <configLocation>checkstyle-config.xml</configLocation>
-                    <excludes>
-                        com/sharethis/mongodb/mojo/HelpMojo.*
-                    </excludes>
+                    <excludes>com/sharethis/mongodb/mojo/HelpMojo.*</excludes>
                 </configuration>
                 <!--executions>
                     <execution>
